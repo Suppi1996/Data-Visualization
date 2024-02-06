@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+	
+<body>
+	<h1>Different type of suspicious communication made by each employee</h1>
+</body>
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<button onclick="update(calls)">Calls</button>
+<button onclick="update(emails)">Emails</button>
+<button onclick="update(meetings)">Meetings</button>
+<button onclick="update(Purchases)">Purchases</button>
+
+<div id="my_dataviz"></div>
+
+<script>
+
+
+var calls=[
+	{group:"Trevor Webb", value:0},
+	{group:"Tobi Gatlin", value:3},
+	{group:"Sara Ballard", value:1},
+	{group:"Rosalia Larroque", value:12},
+	{group:"Richard Fox", value:8},
+	{group:"Refugio Orrantia", value:3},
+	{group:"Ramiro Gault", value:3},
+	{group:"Patrick Lane", value:1},
+	{group:"Meryl Pastuch", value:5},
+	{group:"Melita Scarpaci", value:1},
+	{group:"May Burton", value:1},
+	{group:"Lizbeth Jindra", value:0},
+	{group:"Lindsy Henion", value:5},
+	{group:"Laure Pelkey", value:0},
+	{group:"Kerstin Belveal", value:10},
+	{group:"Julie Tierno", value:2},
+	{group:"Jose Ringwald", value:4},
+	{group:"Glen Grant", value:1},
+	{group:"Dylan Ballard", value:3},
+	{group:"Beth Wilensky", value:0},
+	{group:"Augusta Sharp", value:5},
+	{group:"Alpha Chessor", value:0},
+	{group:"Alex Hall", value:2},
+	{group:"Tyree Barreneche", value:0},
+	{group:"Kia Halonen", value:0},
+	{group:"Jenice Savaria", value:0},
+	{group:"Gregory Russell", value:0},
+	{group:"Carlos Morris", value:0}
+];
+
+var emails=[
+	{group:"Trevor Webb", value:0},
+	{group:"Tobi Gatlin", value:2},
+	{group:"Sara Ballard", value:3},
+	{group:"Rosalia Larroque", value:5},
+	{group:"Richard Fox", value:5},
+	{group:"Refugio Orrantia", value:0},
+	{group:"Ramiro Gault", value:1},
+	{group:"Patrick Lane", value:3},
+	{group:"Meryl Pastuch", value:6},
+	{group:"Melita Scarpaci", value:1},
+	{group:"May Burton", value:4},
+	{group:"Lizbeth Jindra", value:1},
+	{group:"Lindsy Henion", value:6},
+	{group:"Laure Pelkey", value:0},
+	{group:"Kerstin Belveal", value:8},
+	{group:"Julie Tierno", value:1},
+	{group:"Jose Ringwald", value:6},
+	{group:"Glen Grant", value:4},
+	{group:"Dylan Ballard", value:2},
+	{group:"Beth Wilensky", value:0},
+	{group:"Augusta Sharp", value:3},
+	{group:"Alpha Chessor", value:0},
+	{group:"Alex Hall", value:0},
+	{group:"Tyree Barreneche", value:0},
+	{group:"Kia Halonen", value:0},
+	{group:"Jenice Savaria", value:0},
+	{group:"Gregory Russell", value:0},
+	{group:"Carlos Morris", value:0}
+];
+var meetings=[
+	{group:"Trevor Webb", value:0},
+	{group:"Tobi Gatlin", value:0},
+	{group:"Sara Ballard", value:0},
+	{group:"Rosalia Larroque", value:0},
+	{group:"Richard Fox", value:3},
+	{group:"Refugio Orrantia", value:0},
+	{group:"Ramiro Gault", value:0},
+	{group:"Patrick Lane", value:0},
+	{group:"Meryl Pastuch", value:1},
+	{group:"Melita Scarpaci", value:0},
+	{group:"May Burton", value:0},
+	{group:"Lizbeth Jindra", value:0},
+	{group:"Lindsy Henion", value:1},
+	{group:"Laure Pelkey", value:0},
+	{group:"Kerstin Belveal", value:0},
+	{group:"Julie Tierno", value:0},
+	{group:"Jose Ringwald", value:0},
+	{group:"Glen Grant", value:0},
+	{group:"Dylan Ballard", value:0},
+	{group:"Beth Wilensky", value:0},
+	{group:"Augusta Sharp", value:0},
+	{group:"Alpha Chessor", value:0},
+	{group:"Alex Hall", value:0},
+	{group:"Tyree Barreneche", value:0},
+	{group:"Kia Halonen", value:0},
+	{group:"Jenice Savaria", value:0},
+	{group:"Gregory Russell", value:0},
+	{group:"Carlos Morris", value:0}
+];
+var Purchases=[
+	{group:"Trevor Webb", value:2},
+	{group:"Tobi Gatlin", value:0},
+	{group:"Sara Ballard", value:0},
+	{group:"Rosalia Larroque", value:1},
+	{group:"Richard Fox", value:0},
+	{group:"Refugio Orrantia", value:0},
+	{group:"Ramiro Gault", value:0},
+	{group:"Patrick Lane", value:0},
+	{group:"Meryl Pastuch", value:0},
+	{group:"Melita Scarpaci", value:0},
+	{group:"May Burton", value:0},
+	{group:"Lizbeth Jindra", value:0},
+	{group:"Lindsy Henion", value:0},
+	{group:"Laure Pelkey", value:1},
+	{group:"Kerstin Belveal", value:0},
+	{group:"Julie Tierno", value:0},
+	{group:"Jose Ringwald", value:0},
+	{group:"Glen Grant", value:0},
+	{group:"Dylan Ballard", value:0},
+	{group:"Beth Wilensky", value:2},
+	{group:"Augusta Sharp", value:0},
+	{group:"Alpha Chessor", value:2},
+	{group:"Alex Hall", value:0},
+	{group:"Tyree Barreneche", value:0},
+	{group:"Kia Halonen", value:0},
+	{group:"Jenice Savaria", value:0},
+	{group:"Gregory Russell", value:0},
+	{group:"Carlos Morris", value:0}
+];
+
+var margin = {top: 30, right: 30, bottom: 50, left: 60},
+    width = 2100 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .domain(calls.map(function(d) { return d.group; }))
+  .padding(0.6);
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+
+var y = d3.scaleLinear()
+  .domain([0, 20])
+  .range([ height, 0]);
+svg.append("g")
+  .attr("class", "myYaxis")
+  .call(d3.axisLeft(y));
+
+function update(data) {
+
+  var u = svg.selectAll("rect")
+    .data(data)
+
+  u
+    .enter()
+    .append("rect")
+    .merge(u)
+    .transition()
+    .duration(1000)
+      .attr("x", function(d) { return x(d.group); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.value); })
+      .attr("fill", "#008080")
+}
+
+update(calls)
+
+</script>
